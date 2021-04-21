@@ -4,46 +4,74 @@
       <fieldset>
         <legend>API Token</legend>
         <div>
-          <input class="stretch" id="api-token" type="text" v-model="token">
-        </div>
-        </fieldset>
-      </form>
-      <div class="button">
-        <button id="load-profile" v-on:click="retrieveProfile()">Load profile</button>
-      </div>
-      <fieldset>
-        <legend>Result</legend>
-        <div>
-          <label for="name">Name</label>
-          <input id="name" class="field" readonly type="text" placeholder="Name goes here" v-model="profile.name"/>
-        </div>
-        <div>
-          <label for="email">Email</label>
-          <input id="email" class="field" readonly type="text" placeholder="Email goes here" v-model="profile.email"/>
-        </div>
-        <div>
-          <label for="avatar-url">Avatar URL</label>
-          <input id="avatar-url" class="field" readonly type="text" placeholder="Avatar URL goes here" v-model="profile.avatarUrl"/>
+          <input class="stretch" id="api-token" type="text" v-model="token" />
         </div>
       </fieldset>
+    </form>
+    <div class="button">
+      <button id="load-profile" v-on:click="retrieveProfile()">
+        Load profile
+      </button>
+    </div>
+    <fieldset>
+      <legend>Result</legend>
+      <div>
+        <label for="name">Name</label>
+        <input
+          id="name"
+          class="field"
+          readonly
+          type="text"
+          placeholder="Name goes here"
+          v-model="profile.name"
+        />
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input
+          id="email"
+          class="field"
+          readonly
+          type="text"
+          placeholder="Email goes here"
+          v-model="profile.email"
+        />
+      </div>
+      <div>
+        <label for="avatar-url">Avatar URL</label>
+        <input
+          id="avatar-url"
+          class="field"
+          readonly
+          type="text"
+          placeholder="Avatar URL goes here"
+          v-model="profile.avatarUrl"
+        />
+      </div>
+    </fieldset>
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { ProfileApi, Configuration, ConfigurationParameters, UserProfile } from '@lab5e/ts-fetch-userapi';
+import { Component, Prop, Vue } from "vue-property-decorator";
+import {
+  ProfileApi,
+  Configuration,
+  ConfigurationParameters,
+  UserProfile,
+} from "@lab5e/ts-fetch-userapi";
 
 @Component
 export default class ProfileDemo extends Vue {
-  data() : {
-    profile: UserProfile,
-    token: string,
+  data(): {
+    profile: UserProfile;
+    token: string;
   } {
     return {
       profile: {},
       token: "",
-    }
+    };
   }
-  retrieveProfile() : void {
+  retrieveProfile(): void {
     // Create a ConfigurationParameters struct for the setup and assign the
     // apiKey property to the token.
     var params: ConfigurationParameters = {
@@ -56,14 +84,15 @@ export default class ProfileDemo extends Vue {
     var profileApi = new ProfileApi(config);
 
     // Finally: userGetUserProfile returns the user profile
-    profileApi.userGetUserProfile()
+    profileApi
+      .getUserProfile()
       .then((profile) => {
         this.$data.profile = profile;
       })
-      .catch(err => {
-        err.text().then((message:string) => {
-            alert('Error message: ' + message)
-          });
+      .catch((err) => {
+        err.text().then((message: string) => {
+          alert("Error message: " + message);
+        });
       });
   }
 }
